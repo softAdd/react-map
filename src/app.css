@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin-top: 10vh;
+}
+
+.point-list-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-right: 14px;
+  width: 201px;
+}
+
+.point-list-container>input {
+  border: none;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  height: 1.5em;
+}
+
+.yandex-map-container {
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.point-list {
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  margin-top: 14px;
+  overflow: hidden;
+  height: 100%;
+}
