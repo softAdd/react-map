@@ -1,13 +1,21 @@
-import React from "react";
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
+import React, { Component } from "react";
 
-const MyMapComponent = withScriptjs(withGoogleMap((props) =>
-  <GoogleMap
-    defaultZoom={11}
-    defaultCenter={{ lat: -34.397, lng: 150.644 }}
-  >
-    {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
-  </GoogleMap>
-))
+const { ymaps } = window;
 
-export default MyMapComponent;
+class Map extends Component {
+  componentDidMount() {
+    ymaps.ready(() => {
+      new ymaps.Map("yandex-map", {
+        center: [55.76, 37.64],
+        zoom: 7
+      });
+    })
+  }
+  render() {
+    return (
+      <div id="yandex-map" style={{ width: '400px', height: '400px' }}></div>
+    )
+  }
+}
+
+export default Map;
