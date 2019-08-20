@@ -8,7 +8,11 @@ class YandexMap extends Component {
         marks: [],
     }
 
-    addMark = mark => {
+    addMark = point => {
+        const mark = {
+            title: point,
+            geometry: [],
+        }
         this.setState({
             marks: [...this.state.marks, mark]
         });
@@ -22,15 +26,27 @@ class YandexMap extends Component {
         });
     }
 
+    setMarkGeometry = (index, geometry) => {
+        let arrMarks = this.state.marks.slice();
+        arrMarks[index].geometry = geometry;
+        this.setState({
+            marks: arrMarks,
+        });
+    }
+
     render() {
         return (
             <Fragment>
-                <PointList addMark={this.addMark} removeMark={this.removeMark} />
+                <PointList 
+                    addMark={this.addMark}
+                    removeMark={this.removeMark}
+                />
                 <YMap 
                     marks={this.state.marks}
                     mapDefaultState={{ center: [55.75, 37.57], zoom: 11 }}
                     mapWidth={'400px'}
                     mapHeight={'400px'}
+                    setMarkGeometry={this.setMarkGeometry}
                 />
             </Fragment>
         )

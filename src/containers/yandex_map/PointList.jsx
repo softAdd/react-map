@@ -13,7 +13,7 @@ class PointList extends Component {
     });
   };
 
-  handleInputKey = event => {
+  handleInputEnter = event => {
     if (event.key === "Enter") {
       let text = event.target.value;
       this.setState({
@@ -44,7 +44,7 @@ class PointList extends Component {
           placeholder="press enter to add point"
           value={this.state.inputValue}
           onChange={this.handleInputChange}
-          onKeyPress={this.handleInputKey}
+          onKeyPress={this.handleInputEnter}
         />
         {/* <--- POINT LIST ---> */}
         <div className="point-list">
