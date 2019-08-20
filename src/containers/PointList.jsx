@@ -25,6 +25,15 @@ class PointList extends Component {
     }
   }
 
+  deletePoint = event => {
+    let arrPoints = this.state.points.slice();
+    let index = event.target.id.split('-')[2];
+    arrPoints.splice(index, 1);
+    this.setState({
+      points: arrPoints,
+    });
+  }
+
   render() {
     const { points } = this.state;
     return (
@@ -38,9 +47,9 @@ class PointList extends Component {
         />
         <div className="point-list">
           {points.map((point, index) => (
-            <div className="point-item">
+            <div key={`point-${index}`} className="point-item">
               <p className="point-name">{point}</p>
-              <span class="point-delete" id={`point-delete-${index}`}>x</span>
+              <span className="point-delete" id={`point-delete-${index}`} onClick={this.deletePoint}>x</span>
             </div>
           ))}
         </div>
