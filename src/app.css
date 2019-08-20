@@ -18,6 +18,7 @@
   flex-wrap: nowrap;
   margin-right: 14px;
   width: 201px;
+  max-height: 300px;
 }
 
 .point-list-container>input {
@@ -33,6 +34,36 @@
 .point-list {
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   margin-top: 14px;
-  overflow: hidden;
+  overflow-y: scroll;
   height: 100%;
+}
+
+/* хром, сафари */
+.point-list::-webkit-scrollbar { width: 0; }
+
+/* ie 10+ */
+.point-list { -ms-overflow-style: none; }
+
+.point-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0;
+  padding: 5px;
+}
+
+.point-delete {
+  cursor: pointer;
+  margin: auto 0 auto 0;
+  border: 1px solid black;
+  width: 25px;
+  text-align: center;
+  color: white;
+  background-color: black;
+  border-radius: 10px;
+}
+
+.point-delete:hover {
+  background-color: #946a6a;
+  border: 1px solid white;
 }
