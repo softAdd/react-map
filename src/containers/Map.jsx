@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-const { ymaps } = window;
+export const { ymaps } = window;
 
 class Map extends Component {
   componentDidMount() {
