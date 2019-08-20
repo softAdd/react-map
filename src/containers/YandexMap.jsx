@@ -11,7 +11,7 @@ class YandexMap extends Component {
     addMark = mark => {
         this.setState({
             marks: [...this.state.marks, mark]
-        })
+        });
     }
 
     removeMark = index => {
@@ -19,14 +19,19 @@ class YandexMap extends Component {
         arrPoints.splice(index, 1);
         this.setState({
             marks: arrPoints,
-        })
+        });
     }
 
     render() {
         return (
             <Fragment>
                 <PointList addMark={this.addMark} removeMark={this.removeMark} />
-                <YMap marks={this.state.marks} />
+                <YMap 
+                    marks={this.state.marks}
+                    mapDefaultState={{ center: [55.75, 37.57], zoom: 11 }}
+                    mapWidth={'400px'}
+                    mapHeight={'400px'}
+                />
             </Fragment>
         )
     }
