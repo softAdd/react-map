@@ -34,6 +34,11 @@ class YandexMap extends Component {
         });
     }
 
+    getMarks = () => {
+        const marks = this.state.marks.slice();
+        return marks;
+    }
+
     render() {
         return (
             <Fragment>
@@ -42,7 +47,7 @@ class YandexMap extends Component {
                     removeMark={this.removeMark}
                 />
                 <YMap 
-                    marks={this.state.marks}
+                    marks={this.getMarks()}
                     mapDefaultState={{ center: [55.75, 37.57], zoom: 11 }}
                     mapWidth={'400px'}
                     mapHeight={'400px'}
