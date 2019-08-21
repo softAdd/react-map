@@ -20,7 +20,6 @@ class YandexMap extends Component {
 			this.setState({
 					marks: [...arrMarks, mark],
 			})
-			console.log(mark)
 	}
 
 	removeMark = mark => {
