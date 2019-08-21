@@ -12,21 +12,17 @@ class YMap extends Component {
     return this.map.current.getCenter();
   }
 
-  changeGeometry = (mark, index) => {
-    this.props.setMarkGeometry(index, mark.geometry)
-  }
-
-  setDefaultGeometry = (mark, index) => {
+  setDefaultGeometry = mark => {
     if (mark.geometry.length !== 0) {
       return mark.geometry;
     }
-    const centerGeometry = this.getCenterGeometry();
-    this.props.setMarkGeometry(index, centerGeometry);
     return this.getCenterGeometry();
   }
 
-  handleClick = () => {
-    console.log(this.props.marks)
+  setGeometry = (mark, event) => {
+    const geometry = event.get('target').geometry.getCoordinates();
+    mark.geometry = geometry;
+    this.props.setMarkGeometry(mark);
   }
 
   render() {
@@ -35,18 +31,16 @@ class YMap extends Component {
       <div className="yandex-map-container">
         <YMaps>
           <Map defaultState={mapDefaultState} style={{ height: mapHeight, width: mapWidth }} instanceRef={this.map}>
-            {marks.map((mark, index) => (
+            {marks.map(mark => (
               <Placemark 
-                geometry={this.setDefaultGeometry(mark, index)} 
+                geometry={this.setDefaultGeometry(mark)} 
                 options={{ draggable: true }} 
-                key={`${mark.title}-${index}`} 
-                onGeometryChange={() => { this.changeGeometry(mark, index) }}
+                key={`${mark.title}-${mark.id}`} 
+                onDragEnd={(event) => { this.setGeometry(mark, event) }}
               />
             ))}
-            {/* <Placemark geometry={[55.75, 37.57]} options={{ draggable: true }} onGeometryChange={() => { console.log(this.myPlacemark.current.geometry._coordinates) }} instanceRef={this.myPlacemark} /> */}
           </Map>
         </YMaps>
-        <button onClick={this.handleClick}>LOG</button>
       </div>
     );
   }

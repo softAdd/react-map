@@ -4,58 +4,77 @@ import PointList from './yandex_map/PointList';
 import YMap from './yandex_map/YMap';
 
 class YandexMap extends Component {
-    state = {
-        marks: [],
-    }
+	state = {
+			marks: [],
+	}
 
-    addMark = point => {
-        const mark = {
-            title: point,
-            geometry: [],
-        }
-        this.setState({
-            marks: [...this.state.marks, mark]
-        });
-    }
+	// ACTIONS
+	addMark = title => {
+			const arrMarks = this.getMarks();
+			const index = this.getMarkNumber();
+			const mark = {
+					title: title,
+					id: index,
+					geometry: [],
+			}
+			this.setState({
+					marks: [...arrMarks, mark],
+			})
+	}
 
-    removeMark = index => {
-        let arrPoints = this.state.marks.slice();
-        arrPoints.splice(index, 1);
-        this.setState({
-            marks: arrPoints,
-        });
-    }
+	removeMark = mark => {
+			let arrMarks = this.getMarks();
+			arrMarks.splice(mark.id, 1);
+			this.setState({
+					marks: arrMarks,
+			})
+	}
 
-    setMarkGeometry = (index, geometry) => {
-        let arrMarks = this.state.marks.slice();
-        arrMarks[index].geometry = geometry;
-        this.setState({
-            marks: arrMarks,
-        });
-    }
+	// GETTERS
+	getMarkNumber = () => {
+			const markCount = this.state.marks.length;
+			return markCount;
+	}
 
-    getMarks = () => {
-        const marks = this.state.marks.slice();
-        return marks;
-    }
+	getMarks = () => {
+			const marks = this.state.marks.slice();
+			return marks;
+	}
 
-    render() {
-        return (
-            <Fragment>
-                <PointList 
-                    addMark={this.addMark}
-                    removeMark={this.removeMark}
-                />
-                <YMap 
-                    marks={this.getMarks()}
-                    mapDefaultState={{ center: [55.75, 37.57], zoom: 11 }}
-                    mapWidth={'400px'}
-                    mapHeight={'400px'}
-                    setMarkGeometry={this.setMarkGeometry}
-                />
-            </Fragment>
-        )
-    }
+	// SETTERS
+	setMarkGeometry = mark => {
+	    let arrMarks = this.getMarks();
+	    let index = 0;
+	    arrMarks.some((value, number) => {
+	        if (value.id === mark.id) {
+	            index = number;
+	        }
+	        return value.id === mark.id;
+	    });
+	    arrMarks[index].geometry = mark.geometry;
+	    this.setState({
+	        marks: arrMarks,
+	    });
+	}
+
+	render() {
+			return (
+					<Fragment>
+							<PointList
+									addMark={this.addMark}
+									removeMark={this.removeMark}
+									marks={this.state.marks}
+							/>
+							<YMap
+									marks={this.getMarks()}
+									mapDefaultState={{ center: [55.75, 37.57], zoom: 11 }}
+									mapWidth={'400px'}
+									mapHeight={'400px'}
+									setMarkGeometry={this.setMarkGeometry}
+							/>
+					</Fragment>
+			)
+	}
 }
 
 export default YandexMap;

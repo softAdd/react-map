@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class PointList extends Component {
   state = {
-    inputValue: "",
-    points: []
+    inputValue: '',
   };
 
   handleInputChange = event => {
@@ -14,28 +13,21 @@ class PointList extends Component {
   };
 
   handleInputEnter = event => {
-    if (event.key === "Enter") {
-      let text = event.target.value;
+    if (event.key === 'Enter') {
+      const title = event.target.value;
       this.setState({
-        inputValue: "",
-        points: [...this.state.points, text]
+        inputValue: '',
       });
-      this.props.addMark(text);
+      this.props.addMark(title);
     }
   };
 
-  deletePoint = event => {
-    let arrPoints = this.state.points.slice();
-    let index = event.target.id.split("-")[2];
-    arrPoints.splice(index, 1);
-    this.setState({
-      points: arrPoints,
-    });
-    this.props.removeMark(index);
-  };
+  deletePoint = mark => {
+    this.props.removeMark(mark);
+  }
 
   render() {
-    const { points } = this.state;
+    const { marks } = this.props;
     return (
       <div className="point-list-container">
         <input
@@ -46,22 +38,14 @@ class PointList extends Component {
           onChange={this.handleInputChange}
           onKeyPress={this.handleInputEnter}
         />
-        {/* <--- POINT LIST ---> */}
         <div className="point-list">
-          {points.map((point, index) => (
-            <div key={`point-${index}`} className="point-item">
-              <p className="point-name">{point}</p>
-              <span
-                className="point-delete"
-                id={`point-delete-${index}`}
-                onClick={this.deletePoint}
-              >
-                x
-              </span>
+          {marks.map((mark, index) => (
+            <div className="point-item"  key={`point-${index}`}>
+              <p className="point-name">{mark.title}</p>
+              <span className="point-delete" onClick={mark => { this.deletePoint(mark) }}>x</span>
             </div>
           ))}
         </div>
-        {/* <--- POINT LIST ---> */}
       </div>
     );
   }
