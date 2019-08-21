@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { YMaps, Map, Placemark } from 'react-yandex-maps';
+import { YMaps, Map, Placemark, Polyline } from 'react-yandex-maps';
 
 class YMap extends Component {
   constructor(props) {
     super(props);
     this.map = React.createRef();
+  }
+
+  getAllCoordinates = () => {
+    const { marks } = this.props;
+    const coordinates = marks.map(mark => mark.geometry);
+    return coordinates;
   }
 
   getCenterGeometry = () => {
@@ -40,6 +46,18 @@ class YMap extends Component {
                 onDragEnd={(event) => { this.setGeometry(mark, event) }}
               />
             ))}
+            <Polyline
+              geometry={{
+                type: 'LineString',
+                coordinates: this.getAllCoordinates(),
+              }}
+              options={{
+                strokeWidth: 4,
+                strokeColor: '000000',
+                draggable: false,
+                strokeOpacity: 0.5,
+              }}
+            />
           </Map>
         </YMaps>
       </div>
