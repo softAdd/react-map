@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DragDropContext } from 'react-beautiful-dnd';
+import DraggableItemWrapper from '../../components/drag_and_drop/DraggableItemWrapper';
+import DroppableWrapper from '../../components/drag_and_drop/DroppableWrapper';
 
 class PointList extends Component {
   state = {
@@ -26,6 +29,10 @@ class PointList extends Component {
     this.props.removeMark(mark);
   }
 
+  onDragEnd = result => {
+    console.log(result);
+  }
+
   render() {
     const { marks } = this.props;
     return (
@@ -46,6 +53,16 @@ class PointList extends Component {
             </div>
           ))}
         </div>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <DroppableWrapper droppableId={'point-list'} className='point-list'>
+            <DraggableItemWrapper draggableId={1} index={0} className={'point-item'}>
+              <p >Some text</p>
+            </DraggableItemWrapper>
+            <DraggableItemWrapper draggableId={2} index={1} className={'point-item'}>
+              <p>Another some text</p>
+            </DraggableItemWrapper>
+          </DroppableWrapper>
+        </DragDropContext>
       </div>
     );
   }
