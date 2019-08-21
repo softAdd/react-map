@@ -24,13 +24,13 @@ class YandexMap extends Component {
 	}
 
 	removeMark = mark => {
-		console.log(mark)
 		let arrMarks = this.getMarks();
 		let index = 0;
 		arrMarks.find((val, num) => {
 			if (val.id === mark.id) {
 				index = num;
 			}
+			return val.id === mark.id
 		});
 		arrMarks.splice(index, 1);
 		this.setState({
