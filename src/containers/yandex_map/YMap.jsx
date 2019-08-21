@@ -16,6 +16,7 @@ class YMap extends Component {
     if (mark.geometry.length !== 0) {
       return mark.geometry;
     }
+    mark.geometry = this.getCenterGeometry();
     return this.getCenterGeometry();
   }
 

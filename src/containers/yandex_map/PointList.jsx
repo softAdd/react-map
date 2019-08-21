@@ -42,7 +42,7 @@ class PointList extends Component {
           {marks.map((mark, index) => (
             <div className="point-item"  key={`point-${index}`}>
               <p className="point-name">{mark.title}</p>
-              <span className="point-delete" onClick={mark => { this.deletePoint(mark) }}>x</span>
+              <span className="point-delete" onClick={() => { this.deletePoint(mark) }}>x</span>
             </div>
           ))}
         </div>
