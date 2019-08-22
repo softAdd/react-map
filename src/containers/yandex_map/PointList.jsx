@@ -2,16 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
-import Mark from './Mark';
-
-const PointList = ({ marks, deletePoint }) => (
-  <div className="point-list">
-    {marks.map((mark, index) => (
-      <Mark key={`point-${index}`} mark={mark} deletePoint={() => { deletePoint(mark) }} />
-    ))}
-  </div>
-)
+import List from './List';
 
 class Container extends Component {
   state = {
@@ -50,7 +41,7 @@ class Container extends Component {
           onKeyPress={this.handleInputEnter}
         />
         <DndProvider backend={HTML5Backend}>
-          <PointList {...this.props} deletePoint={this.deletePoint} />
+          <List {...this.props} deletePoint={this.deletePoint} />
         </DndProvider>
       </div>
     );
