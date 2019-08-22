@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { DndProvider } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
-const List = ({ mark, deletePoint }) => (
-  <div className="point-item">
-    <p className="point-name">{mark.title}</p>
-    <span className="point-delete" onClick={deletePoint}>x</span>
-  </div>
-)
+import Mark from './Mark';
 
 const PointList = ({ marks, deletePoint }) => (
   <div className="point-list">
     {marks.map((mark, index) => (
-      <List key={`point-${index}`} mark={mark} deletePoint={() => { deletePoint(mark) }} />
+      <Mark key={`point-${index}`} mark={mark} deletePoint={() => { deletePoint(mark) }} />
     ))}
   </div>
 )
@@ -52,7 +49,9 @@ class Container extends Component {
           onChange={this.handleInputChange}
           onKeyPress={this.handleInputEnter}
         />
-        <PointList {...this.props} deletePoint={this.deletePoint} />
+        <DndProvider backend={HTML5Backend}>
+          <PointList {...this.props} deletePoint={this.deletePoint} />
+        </DndProvider>
       </div>
     );
   }
