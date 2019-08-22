@@ -1,10 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { DragDropContext } from 'react-beautiful-dnd';
-import DraggableItemWrapper from '../../components/drag_and_drop/DraggableItemWrapper';
-import DroppableWrapper from '../../components/drag_and_drop/DroppableWrapper';
 
-class PointList extends Component {
+const List = ({ mark, deletePoint }) => (
+  <div className="point-item">
+    <p className="point-name">{mark.title}</p>
+    <span className="point-delete" onClick={deletePoint}>x</span>
+  </div>
+)
+
+const PointList = ({ marks, deletePoint }) => (
+  <div className="point-list">
+    {marks.map((mark, index) => (
+      <List key={`point-${index}`} mark={mark} deletePoint={() => { deletePoint(mark) }} />
+    ))}
+  </div>
+)
+
+class Container extends Component {
   state = {
     inputValue: '',
   };
@@ -29,12 +41,7 @@ class PointList extends Component {
     this.props.removeMark(mark);
   }
 
-  onDragEnd = result => {
-    console.log(result);
-  }
-
   render() {
-    const { marks } = this.props;
     return (
       <div className="point-list-container">
         <input
@@ -45,32 +52,16 @@ class PointList extends Component {
           onChange={this.handleInputChange}
           onKeyPress={this.handleInputEnter}
         />
-        <div className="point-list">
-          {marks.map((mark, index) => (
-            <div className="point-item"  key={`point-${index}`}>
-              <p className="point-name">{mark.title}</p>
-              <span className="point-delete" onClick={() => { this.deletePoint(mark) }}>x</span>
-            </div>
-          ))}
-        </div>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <DroppableWrapper droppableId={'point-list'} className='point-list'>
-            <DraggableItemWrapper draggableId={1} index={0} className={'point-item'}>
-              <p >Some text</p>
-            </DraggableItemWrapper>
-            <DraggableItemWrapper draggableId={2} index={1} className={'point-item'}>
-              <p>Another some text</p>
-            </DraggableItemWrapper>
-          </DroppableWrapper>
-        </DragDropContext>
+        <PointList {...this.props} deletePoint={this.deletePoint} />
       </div>
     );
   }
 }
 
-PointList.propTypes = {
+Container.propTypes = {
   addMark: PropTypes.func.isRequired,
   removeMark: PropTypes.func.isRequired,
+  marks: PropTypes.array.isRequired,
 }
 
-export default PointList;
+export default Container;
