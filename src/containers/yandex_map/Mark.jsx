@@ -34,15 +34,18 @@ const Mark = ({ mark, deletePoint, moveMark, index }) => {
       moveMark(dragIndex, hoverIndex);
       item.index = hoverIndex;
     }
-  })
-  const [, drag] = useDrag({
-    item: {
-      type: ItemTypes.MARK,
-    }
   });
+  const id = mark.id;
+  const [{ isDragging }, drag] = useDrag({
+    item: { type: ItemTypes.MARK, id, index },
+    collect: monitor => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
-    <div className="point-item" ref={ref}>
+    <div className="point-item" ref={ref} style={{ opacity: opacity }}>
       <p className="point-name">{mark.title}</p>
       <span className="point-delete" onClick={deletePoint}>x</span>
     </div>

@@ -40,6 +40,13 @@ class YandexMap extends Component {
 	moveMark = (dragIndex, hoverIndex) => {
 		console.log(dragIndex);
 		console.log(hoverIndex);
+		// get array of marks
+		let marksArray = this.state.marks.slice();
+		// swap necessary elements
+		[marksArray[dragIndex], marksArray[hoverIndex]] = [marksArray[hoverIndex], marksArray[dragIndex]];
+		this.setState({
+			marks: marksArray,
+		});
 	}
 
 	// GETTERS
