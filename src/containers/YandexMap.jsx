@@ -38,10 +38,10 @@ class YandexMap extends Component {
 	}
 
 	moveMark = (dragIndex, hoverIndex) => {
-		// get array of marks
-		let marksArray = this.state.marks.slice();
-		// swap necessary elements
-		[marksArray[dragIndex], marksArray[hoverIndex]] = [marksArray[hoverIndex], marksArray[dragIndex]];
+		let marksArray = this.getMarks();
+		const mark = marksArray[dragIndex];
+		marksArray.splice(dragIndex, 1);
+		marksArray.splice(hoverIndex, 0, mark);
 		this.setState({
 			marks: marksArray,
 		});
