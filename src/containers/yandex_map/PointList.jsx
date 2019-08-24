@@ -52,6 +52,7 @@ class Container extends Component {
 Container.propTypes = {
   addMark: PropTypes.func.isRequired,
   removeMark: PropTypes.func.isRequired,
+  moveMark: PropTypes.func.isRequired,
   marks: PropTypes.array.isRequired,
 }
 

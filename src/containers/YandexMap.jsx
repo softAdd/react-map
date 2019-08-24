@@ -37,6 +37,11 @@ class YandexMap extends Component {
 		})
 	}
 
+	moveMark = (dragIndex, hoverIndex) => {
+		console.log(dragIndex);
+		console.log(hoverIndex);
+	}
+
 	// GETTERS
 	getMarkNumber = () => {
 			const markCount = this.state.marks.length;
@@ -70,6 +75,7 @@ class YandexMap extends Component {
 						<PointList
 								addMark={this.addMark}
 								removeMark={this.removeMark}
+								moveMark={this.moveMark}
 								marks={this.getMarks()}
 						/>
 						<YMap
