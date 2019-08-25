@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 
-import PointList from './yandex_map/PointList';
+import MarkListContainer from './yandex_map/MarkListContainer';
 import YMap from './yandex_map/YMap';
 
 class YandexMap extends Component {
@@ -77,7 +77,7 @@ class YandexMap extends Component {
 	render() {
 		return (
 				<Fragment>
-						<PointList
+						<MarkListContainer
 								addMark={this.addMark}
 								removeMark={this.removeMark}
 								moveMark={this.moveMark}

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { YMaps, Map, Placemark, Polyline } from 'react-yandex-maps';
 
+const { ymaps } = window;
+
 class YMap extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +20,7 @@ class YMap extends Component {
     return this.map.current.getCenter();
   }
 
-  setDefaultGeometry = mark => {
+  getDefaultGeometry = mark => {
     if (mark.geometry.length !== 0) {
       return mark.geometry;
     }
@@ -30,6 +32,9 @@ class YMap extends Component {
     const geometry = event.get('target').geometry.getCoordinates();
     mark.geometry = geometry;
     this.props.setMarkGeometry(mark);
+    ymaps.geocode(mark.geometry).then(res => {
+      console.log(res.geoObjects.get(0).properties.get('metaDataProperty'));
+    });
   }
 
   render() {
@@ -40,7 +45,7 @@ class YMap extends Component {
           <Map defaultState={mapDefaultState} style={{ height: mapHeight, width: mapWidth }} instanceRef={this.map}>
             {marks.map(mark => (
               <Placemark 
-                geometry={this.setDefaultGeometry(mark)} 
+                geometry={this.getDefaultGeometry(mark)} 
                 options={{ draggable: true }} 
                 key={`${mark.title}-${mark.id}`} 
                 onDragEnd={(event) => { this.setGeometry(mark, event) }}

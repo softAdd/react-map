@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { DndProvider } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import List from './List';
+import MarkList from './MarkList';
 
 class Container extends Component {
   state = {
@@ -42,7 +42,7 @@ class Container extends Component {
           onKeyPress={this.handleInputEnter}
         />
         <DndProvider backend={HTML5Backend}>
-          <List {...this.props} deletePoint={this.deletePoint} />
+          <MarkList {...this.props} deletePoint={this.deletePoint} />
         </DndProvider>
       </div>
     );
