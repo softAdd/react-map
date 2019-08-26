@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { YMaps, Map, Placemark, Polyline } from 'react-yandex-maps';
-
-const { ymaps } = window;
+import axios from 'axios';
+import { apikey } from '../../apikey';
 
 class YMap extends Component {
   constructor(props) {
     super(props);
     this.map = React.createRef();
+    this.placemarks = [];
   }
 
   getAllCoordinates = () => {
@@ -28,13 +29,29 @@ class YMap extends Component {
     return this.getCenterGeometry();
   }
 
-  setGeometry = (mark, event) => {
-    const geometry = event.get('target').geometry.getCoordinates();
-    mark.geometry = geometry;
+  setGeometry = (mark, index) => {
+    mark.geometry = this.placemarks[index].geometry.getCoordinates();
     this.props.setMarkGeometry(mark);
-    ymaps.geocode(mark.geometry).then(res => {
-      console.log(res.geoObjects.get(0).properties.get('metaDataProperty'));
-    });
+  }
+
+  // getCenterGeometry = () => {
+  //   return this.map.current.getCenter();
+  // }
+
+  // setAddress = mark => {
+  //   const geometry = this.placemarks[mark.id].geometry.getCoordinates();
+  //   axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${apikey}&geocode=${geometry[1]},${geometry[0]}&results=1&format=json`)
+  //   .then(res => {
+  //     const address = res.data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
+  //     if (address) {
+  //       mark.address = address;
+  //       this.props.setMarkAddress(mark)
+  //     }
+  //   })
+  // }
+
+  setRef = (node, index) => {
+    this.placemarks[index] = node;
   }
 
   render() {
@@ -43,12 +60,13 @@ class YMap extends Component {
       <div className="yandex-map-container">
         <YMaps>
           <Map defaultState={mapDefaultState} style={{ height: mapHeight, width: mapWidth }} instanceRef={this.map}>
-            {marks.map(mark => (
+            {marks.map((mark, index) => (
               <Placemark 
                 geometry={this.getDefaultGeometry(mark)} 
                 options={{ draggable: true }} 
                 key={`${mark.title}-${mark.id}`} 
-                onDragEnd={(event) => { this.setGeometry(mark, event) }}
+                onDragEnd={() => { this.setGeometry(mark, index) }}
+                instanceRef={node => { this.setRef(node, index) }}
               />
             ))}
             <Polyline
@@ -76,6 +94,7 @@ YMap.propTypes = {
   mapWidth: PropTypes.string.isRequired,
   mapHeight: PropTypes.string.isRequired,
   setMarkGeometry: PropTypes.func.isRequired,
+  setMarkAddress: PropTypes.func.isRequired,
 }
 
 export default YMap;

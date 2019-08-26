@@ -74,6 +74,21 @@ class YandexMap extends Component {
 		});
 	}
 
+	setMarkAddress = mark => {
+		let arrMarks = this.getMarks();
+		let index = 0;
+		arrMarks.some((value, number) => {
+				if (value.id === mark.id) {
+						index = number;
+				}
+				return value.id === mark.id;
+		});
+		arrMarks[index].address = mark.address;
+		this.setState({
+				marks: arrMarks,
+		});
+	}
+
 	render() {
 		return (
 				<Fragment>
@@ -89,6 +104,7 @@ class YandexMap extends Component {
 								mapWidth={'400px'}
 								mapHeight={'400px'}
 								setMarkGeometry={this.setMarkGeometry}
+								setMarkAddress={this.setMarkAddress}
 						/>
 				</Fragment>
 		)
