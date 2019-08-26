@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './app.css';
-import YandexMap from './containers/YandexMap';
+import YandexMap from './components/YandexMap';
 
 class App extends Component {
   render() {
