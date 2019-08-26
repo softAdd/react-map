@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { YMaps, Map, Placemark, Polyline } from 'react-yandex-maps';
-import axios from 'axios';
-import { apikey } from '../../apikey';
 
 class YMap extends Component {
   constructor(props) {
     super(props);
     this.map = React.createRef();
     this.placemarks = [];
+  }
+
+  componentDidUpdate() {
+    console.log(this.props)
+    console.log(this.placemarks)
   }
 
   getAllCoordinates = () => {
@@ -29,14 +32,14 @@ class YMap extends Component {
     return this.getCenterGeometry();
   }
 
+  markDragged = (mark, index) => {
+    this.setGeometry(mark, index);
+  }
+
   setGeometry = (mark, index) => {
     mark.geometry = this.placemarks[index].geometry.getCoordinates();
     this.props.setMarkGeometry(mark);
   }
-
-  // getCenterGeometry = () => {
-  //   return this.map.current.getCenter();
-  // }
 
   // setAddress = mark => {
   //   const geometry = this.placemarks[mark.id].geometry.getCoordinates();
@@ -65,7 +68,7 @@ class YMap extends Component {
                 geometry={this.getDefaultGeometry(mark)} 
                 options={{ draggable: true }} 
                 key={`${mark.title}-${mark.id}`} 
-                onDragEnd={() => { this.setGeometry(mark, index) }}
+                onDragEnd={() => { this.markDragged(mark, index) }}
                 instanceRef={node => { this.setRef(node, index) }}
               />
             ))}
