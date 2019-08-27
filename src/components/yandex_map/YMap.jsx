@@ -87,9 +87,10 @@ class YMap extends Component {
 						</Map>
 					</YMaps>
 				</div>
-				<div className="api">
+				<div className="api" style={{ display: 'flex', flexDirection: 'column' }}>
 					<p>API_KEY:</p>
 					<input onChange={event => { this.changeApiKey(event) }}/>
+          <a target="_blank" rel="noopener noreferrer" href="https://yandex.ru/dev/locator/keys/get/"  style={{ textDecoration: 'none' }}>Get yandex api key</a>
         </div>
 			</Fragment>
 
