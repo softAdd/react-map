@@ -23,7 +23,6 @@ class YMap extends Component {
   setAddress = mark => {
     axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${apikey}&geocode=${mark.geometry[1]},${mark.geometry[0]}&results=1&format=json`)
 		.then(res => {
-      console.log('getting from API')
 		  const address = res.data.response.GeoObjectCollection.featureMember[0].GeoObject.name;
 		  if (address) {
         mark.address = address;
@@ -58,6 +57,11 @@ class YMap extends Component {
                 options={{ draggable: true }} 
                 key={`${mark.title}-${index}`} 
                 onDragEnd={event => { this.onDragEnd(event, mark) }}
+                modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
+                properties={{
+                  hintContent: mark.address,
+                  balloonContent: `<p>${mark.title}</p><p>${mark.address}</p>`,
+                }}
               />
             ))}
             <Polyline
@@ -72,9 +76,6 @@ class YMap extends Component {
                 strokeOpacity: 0.5,
               }}
             />
-            {marks.map((mark, index) => (
-              <div key={`${mark.address}-${index}`}>{mark.address}</div>
-            ))}
           </Map>
         </YMaps>
       </div>
