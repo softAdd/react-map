@@ -37,6 +37,15 @@ class YMap extends Component {
     this.setAddress(mark);
   }
 
+  getAllCoordinates = () => {
+    return this.props.marks.map(mark => {
+      if (mark.geometry && mark.geometry.length !== 0) {
+        return mark.geometry;
+      }
+      return this.map.current.getCenter();
+    })
+  }
+
   render() {
     const { marks, mapDefaultState, mapWidth, mapHeight } = this.props;
     return (
@@ -47,13 +56,14 @@ class YMap extends Component {
               <Placemark 
                 geometry={mark.geometry}
                 options={{ draggable: true }} 
-                key={`${mark.title}-${mark.id}`} 
+                key={`${mark.title}-${index}`} 
                 onDragEnd={event => { this.onDragEnd(event, mark) }}
               />
             ))}
             <Polyline
               geometry={{
                 type: 'LineString',
+                coordinates: this.getAllCoordinates(),
               }}
               options={{
                 strokeWidth: 4,
@@ -62,8 +72,8 @@ class YMap extends Component {
                 strokeOpacity: 0.5,
               }}
             />
-            {marks.map(mark => (
-              <div key={mark.id}>{mark.address}</div>
+            {marks.map((mark, index) => (
+              <div key={`${mark.address}-${index}`}>{mark.address}</div>
             ))}
           </Map>
         </YMaps>
