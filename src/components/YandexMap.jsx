@@ -11,7 +11,7 @@ class YandexMap extends Component {
 	// ACTIONS
 	addMark = title => {
 			const arrMarks = this.getMarks();
-			const index = this.getMarkNumber();
+			const index = this.state.marks.length;
 			const mark = {
 					title: title,
 					id: index,
@@ -48,45 +48,9 @@ class YandexMap extends Component {
 	}
 
 	// GETTERS
-	getMarkNumber = () => {
-			const markCount = this.state.marks.length;
-			return markCount;
-	}
-
 	getMarks = () => {
 			const arrMarks = this.state.marks.slice();
 			return arrMarks;
-	}
-
-	// SETTERS
-	setMarkGeometry = mark => {
-		let arrMarks = this.getMarks();
-		let index = 0;
-		arrMarks.some((value, number) => {
-				if (value.id === mark.id) {
-						index = number;
-				}
-				return value.id === mark.id;
-		});
-		arrMarks[index].geometry = mark.geometry;
-		this.setState({
-				marks: arrMarks,
-		});
-	}
-
-	setMarkAddress = mark => {
-		let arrMarks = this.getMarks();
-		let index = 0;
-		arrMarks.some((value, number) => {
-				if (value.id === mark.id) {
-						index = number;
-				}
-				return value.id === mark.id;
-		});
-		arrMarks[index].address = mark.address;
-		this.setState({
-				marks: arrMarks,
-		});
 	}
 
 	render() {
@@ -103,8 +67,6 @@ class YandexMap extends Component {
 								mapDefaultState={{ center: [55.75, 37.57], zoom: 11 }}
 								mapWidth={'400px'}
 								mapHeight={'400px'}
-								setMarkGeometry={this.setMarkGeometry}
-								setMarkAddress={this.setMarkAddress}
 						/>
 				</Fragment>
 		)
